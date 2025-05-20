@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Đăng ký" Height="280" Width="350"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Icon="/img/dakirby309_simply_styled_microsoft_security_essentials_256_qDp_icon.ico">
     <Grid Margin="15" >
 
         <Grid.RowDefinitions>

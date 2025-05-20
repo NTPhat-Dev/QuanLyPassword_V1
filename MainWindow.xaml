@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Icon="/img/dakirby309_simply_styled_microsoft_security_essentials_256_qDp_icon.ico">
 
     <Window.Resources>
         <Style x:Key="CenterCellStyle" TargetType="TextBlock">
