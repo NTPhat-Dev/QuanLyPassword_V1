@@ -1,0 +1,14 @@
+﻿<Window x:Class="QuanLyPassword_V1.MfaVerifyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Xác thực đa yếu tố" Height="180" Width="320" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid Margin="20">
+        <TextBlock Text="Nhập mã OTP từ ứng dụng xác thực:" FontWeight="Bold" />
+        <TextBox x:Name="txtOtp" Margin="0,0,0,0" Height="30" FontSize="16" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,10">
+            <Button Content="Xác nhận" Width="80" Margin="5" Click="BtnVerify_Click" />
+            <Button Content="Hủy" Width="80" Margin="5" Click="BtnCancel_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

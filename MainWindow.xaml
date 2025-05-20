@@ -3,10 +3,126 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:QuanLyPassword_V1"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+
+    <Window.Resources>
+        <Style x:Key="CenterCellStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="CenterHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="#FF1E90FF"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Padding" Value="10,2"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="10" SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="Gray" BlurRadius="8" ShadowDepth="0" Opacity="0.5"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FFADD8E6"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="#FF1E90FF" Padding="9">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" VerticalAlignment="Top" Margin="0,0,0,10">
+                    <Button x:Name="btnAddUser" Content="Thêm tài khoản" Margin="0,0,0,10" Style="{StaticResource RoundedButtonStyle}" Click="BtnAddUser_Click"/>
+                    <Button x:Name="btnEditUser" Content="Sửa tài khoản" Margin="0,0,0,10" Style="{StaticResource RoundedButtonStyle}" Click="BtnEditUser_Click"/>
+                    <Button x:Name="btnDeleteUser" Content="Xóa tài khoản" Margin="0,0,0,10" Style="{StaticResource RoundedButtonStyle}" Click="BtnDeleteUser_Click"/>
+                    <Button x:Name="btnGeneratePassword" Content="Tạo mật khẩu ngẫu nhiên" Margin="0,0,0,10" Style="{StaticResource RoundedButtonStyle}" Click="BtnGeneratePassword_Click"/>
+                    <Button x:Name="btnExportExcel" Content="Xuất Excel" Margin="0,0,0,10" Style="{StaticResource RoundedButtonStyle}" Click="BtnExportToExcel_Click"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1"/>
+
+                <StackPanel Grid.Row="2">
+                    <Button x:Name="btnSettings" Content="Cài đặt" Margin="0,0,0,10" Style="{StaticResource RoundedButtonStyle}" Click="BtnSettings_Click"/>
+                    <Button x:Name="btnLogout" Content="Đăng xuất" Style="{StaticResource RoundedButtonStyle}" Click="BtnLogout_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,0,0,10" VerticalAlignment="Center">
+                <Grid Width="250" Height="30">
+                    <TextBox x:Name="txtSearch" VerticalAlignment="Center" TextChanged="txtSearch_TextChanged"/>
+                    <TextBlock x:Name="txtPlaceholder" Text="Nhập từ khóa tìm kiếm..." Foreground="Gray" Margin="5,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False" Visibility="Visible"/>
+                </Grid>
+
+                <Button x:Name="btnRefresh" Content="Làm mới" Width="90" Height="30" Margin="10,0,0,0" Click="BtnRefresh_Click" Style="{StaticResource RoundedButtonStyle}"/>
+            </StackPanel>
+
+            <DataGrid x:Name="dgUserList" Grid.Row="1" AutoGenerateColumns="False" Margin="0"
+                      IsReadOnly="True" SelectionMode="Single"
+                      ColumnHeaderStyle="{StaticResource CenterHeaderStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Loại tài khoản" Binding="{Binding AccountType}" Width="*" ElementStyle="{StaticResource CenterCellStyle}"/>
+                    <DataGridTextColumn Header="Tên đăng nhập" Binding="{Binding Username}" Width="*" ElementStyle="{StaticResource CenterCellStyle}"/>
+                    <DataGridTemplateColumn Header="Mật khẩu" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock x:Name="txtPassword" Text="●●●●●●●" HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand" Foreground="Gray" MouseLeftButtonDown="TxtPassword_MouseLeftButtonDown">
+                                    <TextBlock.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Copy mật khẩu" Click="CopyPasswordMenuItem_Click"/>
+                                        </ContextMenu>
+                                    </TextBlock.ContextMenu>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Ghi chú" Binding="{Binding Note}" Width="*" ElementStyle="{StaticResource CenterCellStyle}"/>
+                    <DataGridTextColumn Header="Ngày tạo" Binding="{Binding CreatedAt, StringFormat=\{0:dd/MM/yyyy HH:mm\}}" Width="*" ElementStyle="{StaticResource CenterCellStyle}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </Window>

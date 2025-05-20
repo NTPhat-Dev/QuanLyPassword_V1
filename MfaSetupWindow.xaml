@@ -1,0 +1,32 @@
+﻿<Window x:Class="QuanLyPassword_V1.MfaSetupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Thiết lập MFA" Height="480" Width="360" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Quét QR code hoặc nhập mã bí mật vào ứng dụng xác thực:" 
+                   FontWeight="Bold" FontSize="14" TextWrapping="Wrap" />
+
+        <Image Grid.Row="1" x:Name="imgQrCode" Width="200" Height="200" HorizontalAlignment="Center" Margin="0,10" />
+
+        <TextBlock Grid.Row="2" Text="Mã bí mật:" Margin="0,10,0,2" />
+        <TextBox Grid.Row="3" x:Name="txtSecretKey" IsReadOnly="True" HorizontalAlignment="Stretch" />
+
+        <TextBlock Grid.Row="4" Text="Nhập mã OTP từ ứng dụng xác thực:" Margin="0,15,0,2" />
+        <TextBox Grid.Row="5" x:Name="txtOtp" HorizontalAlignment="Stretch" />
+
+        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Xác nhận" Width="90" Margin="5" Click="BtnVerify_Click" />
+            <Button Content="Hủy" Width="90" Margin="5" Click="BtnCancel_Click" />
+        </StackPanel>
+    </Grid>
+</Window>
